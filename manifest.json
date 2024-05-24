@@ -1,0 +1,11 @@
+{
+    "manifest_version": 3,
+    "name": "Youtube Focus Mode",
+    "description": "Removes recommendations and related videos.",
+    "version": "1.0",  
+    "permissions": ["tabs", "scripting"],  
+    "host_permissions": ["https://www.youtube.com/*"],
+    "background": {
+        "service_worker": "background-auto.js"
+    }
+}

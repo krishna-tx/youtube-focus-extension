@@ -13,6 +13,13 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
                 target: {tabId: tab.id}
             });
         }
+        else if(tab.url.includes(resultsURL)) {
+            console.log("results page");
+            await chrome.scripting.insertCSS({
+                files: ["results-page.css"],
+                target: {tabId: tab.id}
+            });
+        }
         // check if page is a shorts page => redirect to home page
         else if(tab.url.includes(shortsURL)) {
             chrome.tabs.update({url: homeURL});

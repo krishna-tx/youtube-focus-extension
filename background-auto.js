@@ -5,11 +5,6 @@ const reloadedHomeURL = "https://www.youtube.com/?";
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if(tab.url && tab.url.includes(homeURL)) { // check if url exists and is a youtube url
-        // remove shorts
-        chrome.scripting.insertCSS({
-            files: ["shorts-removal.css"],
-            target: {tabId: tab.id}
-        });
         // check if page is a home page => hide recommendations
         if(tab.url == homeURL || tab.url.includes(reloadedHomeURL)) {
             // remove css

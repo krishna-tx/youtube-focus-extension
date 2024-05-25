@@ -7,5 +7,11 @@
     "host_permissions": ["https://www.youtube.com/*"],
     "background": {
         "service_worker": "background-auto.js"
-    }
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://www.youtube.com/*"],
+            "css": ["shorts-removal.css"]
+        }
+    ]
 }

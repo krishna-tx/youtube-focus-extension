@@ -3,6 +3,8 @@ const resultsURL = "https://www.youtube.com/results";
 const homeURL = "https://www.youtube.com/";
 const reloadedHomeURL = "https://www.youtube.com/?";
 
+var shouldRefresh;
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if(tab.url && tab.url.includes(homeURL)) { // check if url exists and is a youtube url
         // check if page is a home page => hide recommendations
@@ -22,6 +24,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                 files: ["home-page.css"],
                 target: {tabId: tab.id}
             });
+
+            shouldRefresh = true;
         }
         // check if page is a video page => hide related videos/shorts
         else if(tab.url.includes(watchURL)) {
@@ -43,6 +47,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         }
         // check if page is a results page => hide shorts
         else if(tab.url.includes(resultsURL)) {
+            if(shouldRefresh) {
+                chrome.tabs.reload(tab.id);
+                shouldRefresh = false;
+            }
             // remove css
             chrome.scripting.removeCSS({
                 files: ["home-page.css"],
@@ -58,6 +66,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                 files: ["results-page.css"],
                 target: {tabId: tab.id}
             });
+
+            shouldRefresh = false;
         }
         // otherwise => remove css
         else {
@@ -73,6 +83,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                 files: ["watch-page.css"],
                 target: {tabId: tab.id}
             });
+
+            shouldRefresh = false;
         }
     }
 });
